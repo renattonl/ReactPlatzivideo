@@ -5,47 +5,52 @@ import Categories from '../components/Categories';
 import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
 import Footer from '../components/Footer';
+import useInitalstate from '../hooks/useInitialState';
 import '../assets/styles/App.scss';
 
-const App = () => (
-  <div className='App'>
-    <Header />
-    <Search />
+const API = 'http://localhost:3000/initalState';
 
-    <Categories title='Mi Lista'>
-      <Carousel>
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-      </Carousel>
-    </Categories>
+const App = () => {
+  const initalState = useInitalstate(API);
 
-    <Categories title='Tendencias'>
-      <Carousel>
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-      </Carousel>
-    </Categories>
+  if (initalState.length === 0) return <h1>Loading...</h1>;
 
-    <Categories title='Originales de Platzi Video'>
-      <Carousel>
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-      </Carousel>
-    </Categories>
+  return (
+    <div className='App'>
+      <Header />
+      <Search />
 
-    <Footer />
-  </div>
-);
+      {
+        initalState.mylist.length > 0 && (
+          <Categories title='Mi Lista'>
+            <Carousel>
+              {
+                initalState.mylist.map((item) => <CarouselItem key={item.id} {...item} />)
+              }
+            </Carousel>
+          </Categories>
+        )
+      }
+
+      <Categories title='Tendencias'>
+        <Carousel>
+          {
+            initalState.trends.map((item) => <CarouselItem key={item.id} {...item} />)
+          }
+        </Carousel>
+      </Categories>
+
+      <Categories title='Originales de Platzi Video'>
+        <Carousel>
+          {
+            initalState.originals.map((item) => <CarouselItem key={item.id} {...item} />)
+          }
+        </Carousel>
+      </Categories>
+
+      <Footer />
+    </div>
+  );
+};
 
 export default App;
