@@ -201,6 +201,12 @@
     "vars-on-top": 2,
     "wrap-iife": [2, "any"],
     "wrap-regex": 0,
-    "yoda": [2, "never"]
+    "yoda": [2, "never"],
+    "react/jsx-props-no-spreading": [1 , {
+      "html": "enforce",
+      "custom": "ignore",
+      "explicitSpread": "enforce",
+      "exceptions": []
+    }]
   }
 }
